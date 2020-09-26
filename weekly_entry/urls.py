@@ -3,22 +3,22 @@ from django.conf.urls import url
 from django.contrib import admin
 
 from . import views
-from .views import PilotListView
-from .views import PilotDetailView
+from .views import StudentListView
+from .views import StudentDetailView
 
-from .views import LogbookListView
+from .views import WeeklyEntryListView
 
 
 
 urlpatterns = [
-    path('add_pilot', views.add_pilot, name='add_pilot'),
-    path('pilot/<int:pk>/add_logbook_entry', views.add_logbook_entry, name='add_logbook_entry'),
+    path('add_student', views.add_student, name='add_student'),
+    path('student/<int:pk>/add_weekly_entry', views.add_weekly_entry, name='add_weekly_entry'),
 
-    path('pilot_display', PilotListView.as_view(), name='pilot-list'),
-    path('pilot/<int:pk>/', views.PilotDetailView.as_view(), name='pilot-detail'),
+    path('student_display', StudentListView.as_view(), name='student-list'),
+    path('student/<int:pk>/', views.StudentDetailView.as_view(), name='student-detail'),
 
-    path('pilot/<int:pk>/edit/', views.pilot_edit, name='pilot_edit'),
-    path('logbook_entry_edit/<int:pk>', views.logbook_edit, name='logbook-edit'),
+    path('student/<int:pk>/edit/', views.student_edit, name='student_edit'),
+    path('weekly_entry_edit/<int:pk>', views.weekly_entry_edit, name='weekly-entry-edit'),
 
 
 

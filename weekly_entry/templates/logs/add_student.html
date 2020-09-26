@@ -1,15 +1,15 @@
 
-{% extends 'logs/base.html' %}
+{% extends 'covid_tracker/base.html' %}
 
 
 
 {% block content %}
 
-    <h1>Pilot </h1>
+    <h1>Student </h1>
     <form method="POST">
         
         {% csrf_token %}
-        {{ pilot_form.as_p }}
+        {{ student_form.as_p }}
 
         <button type="submit">Save</button>
     </form>

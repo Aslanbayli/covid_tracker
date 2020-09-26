@@ -1,0 +1,16 @@
+{% extends 'covid_tracker/base.html' %}
+{% block content %}
+
+{% for student in object_list %}
+<br/><br/>
+
+{{ student.first_name }} {{ student.last_name }} <a href="student/{{student.id}}"><button type="button"> Student Info </button> </a>
+
+{% endfor %}
+
+{% endblock %}
+
+
+<!--
+     <h2> <a href="add_pilot" style="color: rgb(48, 60, 71)"> Register another pilot</a></h2>    
+-->

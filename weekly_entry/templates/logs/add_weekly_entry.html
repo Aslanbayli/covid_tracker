@@ -1,5 +1,5 @@
 
-{% extends 'logs/base.html' %}
+{% extends 'covid_tracker/base.html' %}
 
 
 
@@ -9,7 +9,7 @@
     <form method="POST">
         
         {% csrf_token %}
-        {{ logbook_entry_form.as_p }}
+        {{ weekly_entry_form.as_p }}
 
         <button type="submit">Save</button>
     </form>

@@ -10,102 +10,102 @@ from django.views.generic.edit import UpdateView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 
-from .models import Pilot
-from .models import LogbookEntry
+from .models import Student
+from .models import WeeklyEntry
 
-from .forms import PilotForm
-from .forms import LogbookEntryForm
+from .forms import StudentForm
+from .forms import WeeklyEntryForm
 
 
 
 # Create your views here.
 
-def add_pilot(request):
+def add_student(request):
     if request.method == "POST":
-        pilot_form = PilotForm(request.POST)
-        print(pilot_form)
-        if pilot_form.is_valid():
-            pilot = pilot_form.save(commit=False)
-            pilot.save()
-            return redirect('pilot-list')
+        student_form = StudentForm(request.POST)
+        print(student_form)
+        if student_form.is_valid():
+            student = student_form.save(commit=False)
+            student.save()
+            return redirect('student-list')
     else:
-        pilot_form = PilotForm()
-    return render(request, 'logs/add_pilot.html', {'pilot_form': pilot_form})
+        student_form = StudentForm()
+    return render(request, 'covid_tracker/add_student.html', {'student_form': student_form})
 
-def pilot_edit(request, pk):
-    pilot = get_object_or_404(Pilot, pk=pk)
+def student_edit(request, pk):
+    student = get_object_or_404(Student, pk=pk)
     if request.method == "POST":
-        pilot_form = PilotForm(request.POST, instance=pilot)
-        if pilot_form.is_valid():
-            post = pilot_form.save(commit=False)
+        student_form = StudentForm(request.POST, instance=student)
+        if student_form.is_valid():
+            post = student_form.save(commit=False)
             post.author = request.user
             post.published_date = timezone.now()
             post.save()
-            return redirect('pilot-list')
+            return redirect('student-list')
     else:
-        pilot_form = PilotForm(instance=pilot)
-    return render(request, 'logs/add_pilot.html', {'pilot_form': pilot_form})
+        student_form = StudentForm(instance=student)
+    return render(request, 'covid_tracker/add_student.html', {'student_form': student_form})
 
-def logbook_edit(request, pk):
-    entry = get_object_or_404(LogbookEntry, pk=pk)
+def weekly_entry_edit(request, pk):
+    entry = get_object_or_404(WeeklyEntry, pk=pk)
     if request.method == "POST":
-        logbook_entry_form = LogbookEntryForm(request.POST, instance=entry)
-        if logbook_entry_form.is_valid():
-            post = logbook_entry_form.save(commit=False)
+        weekly_entry_form = WeeklyEntryForm(request.POST, instance=entry)
+        if weekly_entry_form.is_valid():
+            post = weekly_entry_form.save(commit=False)
             post.author = request.user
             post.published_date = timezone.now()
             post.save()
-            return redirect('pilot-list')
+            return redirect('student-list')
     else:
-        logbook_entry_form = LogbookEntryForm(instance=entry)
-    return render(request, 'logs/add_logbook_entry.html', {'logbook_entry_form': logbook_entry_form})
+        weekly_entry_form = WeeklyEntryForm(instance=entry)
+    return render(request, 'covid_tracker/add_weekly_entry.html', {'weekly_entry_form': weekly_entry_form})
 
 
 
 
 #FIGURING OUT logbook entries
 
-def add_logbook_entry(request, pk):
+def add_weekly_entry(request, pk):
     if request.method == "POST":
-        logbook_entry_form = LogbookEntryForm(request.POST)
-        print(logbook_entry_form)
-        if logbook_entry_form.is_valid():
-            logbook_entry = logbook_entry_form.save(commit=False)
-            logbook_entry.save()
-            return redirect('pilot-list')
+        weekly_entry_form = WeeklyEntryForm(request.POST)
+        print(weekly_entry_form)
+        if weekly_entry_form.is_valid():
+            weekly_entry = weekly_entry_form.save(commit=False)
+            weekly_entry.save()
+            return redirect('student-list')
     else:
-        logbook_entry_form = LogbookEntryForm
-    return render(request, 'logs/add_logbook_entry.html', {'logbook_entry_form': logbook_entry_form})
+        weekly_entry_form = WeeklyEntryForm
+    return render(request, 'covid_tracker/add_weekly_entry.html', {'weekly_entry_form': weekly_entry_form})
 
 
 
 
 
 
-class PilotListView(ListView):
-    model = Pilot
+class StudentListView(ListView):
+    model = Student
 
-    def pilot_display(self, **kwargs):
+    def student_display(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['now'] = timezone.now()
         return context
 
 
-class PilotDetailView(DetailView):
-    model = Pilot 
+class StudentDetailView(DetailView):
+    model = Student 
     
     def get(self, request, *args, **kwargs):
-        pilot = get_object_or_404(Pilot, pk=kwargs['pk'])
+        student = get_object_or_404(Student, pk=kwargs['pk'])
         #pilot_logs = get_object_or_404(LogbookEntry, pk=kwargs['pk'])
-        lbe = LogbookEntry.objects.filter(pilot_id=kwargs['pk'])
-        context = {'pilot': pilot, 'pilot_logs': lbe}
-        return render(request, 'logs/pilot_detail.html', context)
+        lbe = WeeklyEntry.objects.filter(student_id=kwargs['pk'])
+        context = {'student': student, 'student_logs': lbe}
+        return render(request, 'covid_tracker/student_detail.html', context)
      
 class LogbookListView(ListView):
     model = LogbookEntry
 
     def logbook_entry_display(self, request, *args, **kwargs):
         logbook_entry = get_object_or_404(LogbookEntry, pk=kwargs['pk'])
-        context = {'logbook_entry': logbook_entry} 
-        return render(request, 'logs/logbookentry_list.html', context)
+        context = {'weekly_entry': weekly_entry} 
+        return render(request, 'covid_tracker/weekly_entry_list.html', context)
 

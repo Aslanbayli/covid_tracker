@@ -1,0 +1,50 @@
+
+{% extends 'covid_tracker/base.html' %}
+{% block content %}
+
+<h1>Student Information </h1>
+<table class="center" >
+    <tr>
+        <th>Student Name</th>
+        <td>{{student.first_name}} {{student.last_name}}</td>
+    </tr>
+    <tr>
+        <th>Gender</th>
+        <td>{{student.gender}}</td>
+    </tr>
+    <tr>
+        <th>Phone</th>
+        <td>{{student.phone}}</td>
+    </tr>
+    <tr>
+        <th>Email</th>
+        <td>{{student.email}}</td>
+    </tr>
+
+
+</table>
+<a href="edit"><button type="button"> Edit </button> </a>
+
+
+
+
+<h1> Logbook Section </h1>
+
+<table class="table table-striped " >
+{% for lbe in student_logs %}
+<tr>
+    
+
+    <td><a href="/weekly_entry_edit/{{lbe.id}}"><button type="button"> Edit </button> </a></td>
+    <td><a href="#"><button type="button" class="btn btn-danger">Delete</button> </a></td>
+
+    
+
+</tr>
+
+{% endfor %}
+</table>
+
+<a href="add_weekly_entry"><button type="button"> Add New Weekly Entry </button> </a>
+
+{% endblock %}
